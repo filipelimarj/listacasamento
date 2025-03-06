@@ -105,7 +105,7 @@
             list.innerHTML = ""; 
 
             gifts.forEach((gift, index) => {
-                let savedData = localStorage.getItem(gift_${index});
+                let savedData = localStorage.getItem(`gift_${index}`);
                 let savedName = savedData ? savedData.split("|")[1] : "";
                 let isDisabled = savedData ? "disabled" : "";
 
@@ -113,7 +113,7 @@
                 listItem.className = isDisabled ? "disabled" : "";
 
                 listItem.innerHTML = `
-                    <span>${gift} ${savedName ? (Já escolhido por: ${savedName}) : ""}</span>
+                    <span>${gift} ${savedName ? `(Já escolhido por: ${savedName})` : ""}</span>
                     ${!isDisabled ? `
                         <input type="text" id="name_${index}" placeholder="Seu nome">
                         <button onclick="chooseGift(${index})">Escolher</button>
@@ -125,7 +125,7 @@
         }
 
         function chooseGift(index) {
-            let nameInput = document.getElementById(name_${index});
+            let nameInput = document.getElementById(`name_${index}`);
             let name = nameInput.value.trim();
 
             if (name === "") {
@@ -133,7 +133,7 @@
                 return;
             }
 
-            localStorage.setItem(gift_${index}, ${gifts[index]}|${name});
+            localStorage.setItem(`gift_${index}`, `${gifts[index]}|${name}`);
             loadGifts();
         }
 
