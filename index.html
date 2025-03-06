@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Presentes - Nosso Casamento</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #fffaf0;
+            color: #333;
+        }
+        .header {
+            background: #ffcccb;
+            padding: 20px;
+            border-bottom: 5px solid #ff6666;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin: 10px 0;
+            color: #fff;
+        }
+        .header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            object-fit: cover;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f8f8f8;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 150px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            background: #ff6666;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #cc4444;
+        }
+        .disabled {
+            background: #ddd !important;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="foto-casal.jpg" alt="Nosso Casamento">
+        <h1>Lista de Presentes do Nosso Casamento</h1>
+        <p>Escolha um presente para nos ajudar a começar essa nova fase!</p>
+    </div>
+
+    <div class="container">
+        <ul id="giftList">
+            <!-- Itens serão inseridos dinamicamente -->
+        </ul>
+    </div>
+
+    <script>
+        const gifts = [
+            "Jogo de panelas antiaderentes",
+            "Conjunto de talheres inox",
+            "Liquidificador",
+            "Jogo de toalhas",
+            "Edredom casal",
+            "Conjunto de pratos e copos",
+            "Sanduicheira elétrica",
+            "Kit de utensílios de cozinha",
+            "Caixa de som Bluetooth",
+            "Kit para churrasco"
+        ];
+
+        function loadGifts() {
+            const list = document.getElementById("giftList");
+            list.innerHTML = ""; 
+
+            gifts.forEach((gift, index) => {
+                let savedData = localStorage.getItem(gift_${index});
+                let savedName = savedData ? savedData.split("|")[1] : "";
+                let isDisabled = savedData ? "disabled" : "";
+
+                let listItem = document.createElement("li");
+                listItem.className = isDisabled ? "disabled" : "";
+
+                listItem.innerHTML = `
+                    <span>${gift} ${savedName ? (Já escolhido por: ${savedName}) : ""}</span>
+                    ${!isDisabled ? `
+                        <input type="text" id="name_${index}" placeholder="Seu nome">
+                        <button onclick="chooseGift(${index})">Escolher</button>
+                    ` : ""}
+                `;
+
+                list.appendChild(listItem);
+            });
+        }
+
+        function chooseGift(index) {
+            let nameInput = document.getElementById(name_${index});
+            let name = nameInput.value.trim();
+
+            if (name === "") {
+                alert("Por favor, insira seu nome.");
+                return;
+            }
+
+            localStorage.setItem(gift_${index}, ${gifts[index]}|${name});
+            loadGifts();
+        }
+
+        loadGifts();
+    </script>
+
+</body>
+</html>
